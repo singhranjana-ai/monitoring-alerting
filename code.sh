@@ -294,6 +294,12 @@ unset PD_KEY
 # PAGERDUTY EVENTS API V2
 # ==============================================
 
+
+# ==============================================
+# STEP 9: ALERTMANAGER CONFIGURATION
+# PAGERDUTY INTEGRATION
+# ==============================================
+
 cat > /etc/alertmanager/alertmanager.yml <<'EOF'
 global:
   resolve_timeout: 5m
@@ -304,19 +310,18 @@ route:
     - alertname
     - server_name
     - instance_id
-
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 4h
 
 receivers:
-
   - name: pagerduty
-
     pagerduty_configs:
-
       - routing_key_file: /etc/alertmanager/pagerduty.key
         send_resolved: true
+        severity: '{{ if eq .CommonLabels.severity "critical" }}critical{{ else if eq .CommonLabels.severity "warning" }}warning{{ else }}error{{ end }}'
+        description: '{{ .CommonAnnotations.summary }}'
+        source: monitoring-server
 EOF
 
 # Set Alertmanager permissions
