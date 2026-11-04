@@ -205,16 +205,16 @@ groups:
           summary: "Node Server is down"
           description: "Node Server is unavailable or not discovered."
 
-      # CPU usage above 80 percent
+      # CPU usage above 60 percent
 
       - alert: HighCPUUsage
-        expr: 100 * (1 - avg by (server_name, instance_id) (rate(node_cpu_seconds_total{job="node_server",mode="idle"}[5m]))) > 40
+        expr: 100 * (1 - avg by (server_name, instance_id) (rate(node_cpu_seconds_total{job="node_server",mode="idle"}[5m]))) > 60
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "CPU usage is above 40 percent"
-          description: "Node Server CPU usage has exceeded 80 percent."
+          summary: "CPU usage is above 60 percent"
+          description: "Node Server CPU usage has exceeded 60 percent."
 
       # Root disk usage above 80 percent
 
