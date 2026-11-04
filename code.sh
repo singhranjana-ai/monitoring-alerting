@@ -163,10 +163,6 @@ scrape_configs:
             values:
               - node_server
 
-          - name: instance-state-name
-            values:
-              - running
-
     relabel_configs:
 
       - source_labels: [__meta_ec2_tag_Name]
