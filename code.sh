@@ -202,7 +202,7 @@ groups:
 
       - alert: NodeServerDown
         expr: up{job="node_server"} == 0 OR absent(up{job="node_server"})
-        for: 2m
+        for: 1m
         labels:
           severity: critical
         annotations:
@@ -212,12 +212,12 @@ groups:
       # CPU usage above 80 percent
 
       - alert: HighCPUUsage
-        expr: 100 * (1 - avg by (server_name, instance_id) (rate(node_cpu_seconds_total{job="node_server",mode="idle"}[5m]))) > 80
-        for: 5m
+        expr: 100 * (1 - avg by (server_name, instance_id) (rate(node_cpu_seconds_total{job="node_server",mode="idle"}[5m]))) > 40
+        for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "CPU usage is above 80 percent"
+          summary: "CPU usage is above 40 percent"
           description: "Node Server CPU usage has exceeded 80 percent."
 
       # Root disk usage above 80 percent
